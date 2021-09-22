@@ -1,11 +1,11 @@
 import React from 'react'
 import Document, {
-  DocumentInitialProps,
-  DocumentContext,
   Html,
   Head,
   Main,
-  NextScript
+  NextScript,
+  DocumentContext,
+  DocumentInitialProps
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
@@ -42,10 +42,10 @@ export default class MyDocument extends Document {
       <Html lang="pt">
         <Head>
           <meta charSet="utf-8" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-            rel="stylesheet"
-          />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='' />
+          <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&display=swap" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
         </Head>
         <body>
           <Main />
