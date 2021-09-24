@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
-import Button from '../components/Button'
+import Input from '../components/Input'
 
 
 const Home: NextPage = () => {
-  return <h1>Marvel Stone</h1>
+return <Input name="email" label="Email" placeholder="Set your email" />
 }
 
 export default Home
