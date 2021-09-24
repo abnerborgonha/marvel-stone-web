@@ -1,7 +1,7 @@
 import { useCallback, useRef } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import { FormHandles } from '@unform/core'
+import { useRouter } from 'next/router'
 
 import Button from '../components/Button'
 import Input from '../components/Input'
@@ -14,7 +14,7 @@ import {
   Form,
   ButtonContainer,
   Text
-} from '../styles/pages/Login'
+} from '../styles/pages/Register'
 
 const Login: React.FC = () => {
   const router = useRouter()
@@ -27,9 +27,17 @@ const Login: React.FC = () => {
       <LeftSide />
       <RightSide>
         <Content>
-          <Image src="/img/marvel-logo.png" width={200} height={100} />
+          <Image
+            src="/img/marvel-logo.png"
+            width={200}
+            height={100}
+            placeholder="blur"
+            blurDataURL="/img/marvel-logo.png"
+          />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
+            <Input name="name" label="Name" placeholder="Enter your name" />
+
             <Input
               name="email"
               label="Email address"
@@ -41,14 +49,14 @@ const Login: React.FC = () => {
               placeholder="Enter password"
             />
             <ButtonContainer>
-              <Button label="Sign In" />
+              <Button label="Sign Up" />
 
               <Text>or</Text>
 
               <Button
-                label="Sign Up"
+                label="Sign In"
                 secondary
-                onClick={() => router.push('/register')}
+                onClick={() => router.push('/')}
               />
             </ButtonContainer>
           </Form>
