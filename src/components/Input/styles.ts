@@ -7,11 +7,11 @@ export const Container = styled.section`
   > input {
     width: 100%;
     border-radius: 10px;
-    border: 1px solid ${({ theme }) => theme.colors.border};
+    border: 2px solid ${({ theme }) => theme.colors.border};
     background: ${({ theme }) => theme.colors.secondary};
     font-size: 1rem;
     color: ${({ theme }) => theme.colors.text};
-    padding: 10px;
+    padding: 15px;
 
     ::placeholder {
       color: ${({ theme }) => theme.colors.border};
