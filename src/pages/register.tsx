@@ -27,13 +27,7 @@ const Login: React.FC = () => {
       <LeftSide />
       <RightSide>
         <Content>
-          <Image
-            src="/img/marvel-logo.png"
-            width={200}
-            height={100}
-            placeholder="blur"
-            blurDataURL="/img/marvel-logo.png"
-          />
+          <Image src="/img/marvel-logo.png" width={200} height={100} />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input name="name" label="Name" placeholder="Enter your name" />

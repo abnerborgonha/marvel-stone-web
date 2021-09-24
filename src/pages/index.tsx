@@ -41,7 +41,7 @@ const Login: React.FC = () => {
               placeholder="Enter password"
             />
             <ButtonContainer>
-              <Button label="Sign In" />
+              <Button label="Sign In" onClick={() => router.push('/home')} />
 
               <Text>or</Text>
 
