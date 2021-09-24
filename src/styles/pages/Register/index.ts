@@ -11,12 +11,16 @@ export const LeftSide = styled.div`
   height: 100vh;
   width: 100%;
 
-  background: url('../img/marvel-background-register.png');
+  background: url('../img/marvel-background.png');
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 0 20px 20px 0;
 
   max-width: 800px;
+
+  @media(max-width: 1200px) {
+    display: none;
+  }
 `
 
 
@@ -27,6 +31,10 @@ export const RightSide = styled.div`
 
   height: 100vh;
   width: 60vw;
+
+  @media(max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 export const Content = styled.div`
