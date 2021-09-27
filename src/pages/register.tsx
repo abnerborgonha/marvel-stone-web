@@ -1,7 +1,7 @@
-import { useCallback, useRef } from 'react'
 import Image from 'next/image'
-import { FormHandles } from '@unform/core'
 import { useRouter } from 'next/router'
+import { useCallback, useRef } from 'react'
+import { FormHandles } from '@unform/core'
 
 import Button from '../components/Button'
 import Input from '../components/Input'

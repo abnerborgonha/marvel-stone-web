@@ -1,6 +1,6 @@
-import {Form as UnformFormComponent } from '@unform/web'
 import styled from 'styled-components'
-import theme from '../../theme';
+import {Form as UnformFormComponent } from '@unform/web'
+
 
 export const Container = styled.section`
   display: flex;
@@ -34,7 +34,7 @@ export const RightSide = styled.div`
 
 
   @media(max-width: 1200px) {
-    width: 100%auto;
+    width: 100%;
   }
 `;
 
