@@ -7,13 +7,13 @@ import Button from '../components/Button'
 import Input from '../components/Input'
 
 import {
-  Container,
-  LeftSide,
-  RightSide,
-  Content,
+  Text,
   Form,
+  Content,
+  LeftSide,
+  Container,
+  RightSide,
   ButtonContainer,
-  Text
 } from '../styles/pages/Login'
 
 const Login: React.FC = () => {

@@ -1,22 +1,13 @@
-import Image from 'next/image'
+import DesktopMenu from './DesktopMenu'
+import MobileMenu from './MobileMenu'
 
-import ProfileIcon from '../ProfileIcon'
-
-import { Container, Options } from './styles'
 
 const Header: React.FC = () => {
   return (
-      <Container>
-        <Image src="/img/marvel-logo.png" width={100} height={50} />
-        <Options>
-          <ul>
-            <li>Characters</li>
-            <li>Comics</li>
-            <li>Favorites</li>
-          </ul>
-        </Options>
-        <ProfileIcon />
-      </Container>
+     <>
+      <DesktopMenu />
+      <MobileMenu />
+     </>
   )
 }
 
