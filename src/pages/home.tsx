@@ -8,7 +8,21 @@ const Home: React.FC = () => {
     <>
       <Header />
       <Container>
-        {/* <DisplayCard /> */}
+        <DisplayCard
+          imageUrl="/img/iron-man.jpg"
+          title="Iron Man"
+          subtitle="Tony Stark"
+        />
+        <DisplayCard
+          imageUrl="/img/spider-man-miles.jpg"
+          title="Spider Man"
+          subtitle="Miles Morales"
+        />
+        <DisplayCard
+          imageUrl="/img/hulk.jpg"
+          title="Hulk"
+          subtitle="Bruce Banner"
+        />
       </Container>
     </>
   )
