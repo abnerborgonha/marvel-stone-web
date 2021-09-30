@@ -15,8 +15,8 @@ export const Container = styled.div<IDisplayCardProps>`
   padding: 1rem;
   margin: 0 10px;
 
-  width: 30rem;
-  height: 30rem;
+  width: 20rem;
+  height: 20rem;
   border-radius: 2.8rem;
 
   filter: grayscale(0.9);
@@ -28,8 +28,8 @@ export const Container = styled.div<IDisplayCardProps>`
   cursor: pointer;
 
   :hover {
-    width: 30.5rem;
-    height: 30.5rem;
+    width: 22rem;
+    height: 22rem;
     filter: grayscale(0.4);
 
     box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
@@ -39,7 +39,7 @@ export const Container = styled.div<IDisplayCardProps>`
 `
 
 export const Title = styled.h2`
-  font-size: 3.4rem;
+  font-size: 2.5rem;
   font-weight: bold;
   text-transform: uppercase;
 

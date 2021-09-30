@@ -1,5 +1,6 @@
-import DisplayCard from '../components/DisplayCard'
 import Header from '../components/Header'
+import DisplayCard from '../components/DisplayCard'
+import Search from '../components/Search'
 
 import { Container } from '../styles/pages/Home'
 
@@ -8,7 +9,8 @@ const Home: React.FC = () => {
     <>
       <Header />
       <Container>
-        <DisplayCard
+        <Search />
+        {/* <DisplayCard
           imageUrl="/img/iron-man.jpg"
           title="Iron Man"
           subtitle="Tony Stark"
@@ -22,7 +24,7 @@ const Home: React.FC = () => {
           imageUrl="/img/hulk.jpg"
           title="Hulk"
           subtitle="Bruce Banner"
-        />
+        /> */}
       </Container>
     </>
   )
