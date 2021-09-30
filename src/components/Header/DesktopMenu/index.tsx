@@ -1,11 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import useAuth from '../../../hooks/useAuth'
+import reduceUserName from '../../../utils/reduceUserName'
 
 import ProfileIcon from '../../ProfileIcon'
 
 import { Container, Options } from './styles'
 
 const DesktopMenu: React.FC = () => {
+  const { user } = useAuth()
+
   return (
     <Container>
       <Image src="/img/marvel-logo.png" width={100} height={50} />
@@ -20,7 +24,7 @@ const DesktopMenu: React.FC = () => {
           <li>Favorites</li>
         </ul>
       </Options>
-      <ProfileIcon />
+      <ProfileIcon name={reduceUserName(user.name)} />
     </Container>
   )
 }
