@@ -1,24 +1,39 @@
+
+
+import { useCallback } from 'react'
+import useModal from '../../hooks/useModal'
 import FavoriteButton from '../FavoriteButton'
+
 import { Container, Title, Subtitle, Footer, Explore } from './styles'
 
 interface IDisplayCardProps {
-  title: string
-  subtitle?: string
+  type: 'comic' | "character"
+  data: any
   imageUrl: string
+  isFavorite: boolean
 }
 
 const DisplayCard: React.FC<IDisplayCardProps> = ({
+  data,
+  type,
   imageUrl,
-  title,
-  subtitle
+  isFavorite
 }) => {
+  const {showModal} = useModal()
+
+  const handleShowCard = useCallback(() => {
+    showModal({
+      type,
+      data
+    })
+  },[])
+
   return (
-    <Container imageUrl={imageUrl}>
-      <Title>{title}</Title>
-      <Subtitle>{subtitle}</Subtitle>
+    <Container imageUrl={imageUrl} >
+      <Title>{data.name}</Title>
       <Footer>
-        <Explore>Explore</Explore>
-        <FavoriteButton />
+        <Explore onClick={handleShowCard} >Explore</Explore>
+        <FavoriteButton isFavorite={isFavorite} />
       </Footer>
     </Container>
   )

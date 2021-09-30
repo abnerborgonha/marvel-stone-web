@@ -1,7 +1,7 @@
 import { FiPlusSquare } from 'react-icons/fi'
 import styled from 'styled-components'
 
-import { Heart } from '../../styles/icons'
+import { Heart, HeartEmpty } from '../../styles/icons'
 
 export const Container = styled.button`
   display: flex;
@@ -17,7 +17,13 @@ export const Container = styled.button`
   height: 4rem;
   padding: 1rem;
 `
-export const PlusIcon = styled(Heart).attrs({
+export const HeartIcon = styled(Heart).attrs({
+  size: 30
+})`
+  color: ${({ theme }) => theme.colors.primary};
+`
+
+export const HeartEmptyIcon = styled(HeartEmpty).attrs({
   size: 30
 })`
   color: ${({ theme }) => theme.colors.primary};

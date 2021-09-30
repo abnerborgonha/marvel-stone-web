@@ -1,11 +1,15 @@
 import React from 'react'
 
-import { Container, PlusIcon } from './styles'
+import { Container, HeartIcon, HeartEmptyIcon } from './styles'
 
-const FavoriteButton: React.FC = () => {
+interface IFavoriteButtonProps {
+  isFavorite: boolean
+}
+
+const FavoriteButton: React.FC<IFavoriteButtonProps> = ({ isFavorite }) => {
   return (
     <Container>
-      <PlusIcon />
+      {isFavorite ? <HeartIcon /> : <HeartEmptyIcon />}
     </Container>
   )
 }
