@@ -19,4 +19,8 @@ export const Container = styled.button<IButtonProps>`
   &:hover {
     transform: translateY(-2px);
   }
+
+  & + button {
+    margin-top: 20px
+  }
 `;

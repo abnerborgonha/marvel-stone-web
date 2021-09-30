@@ -9,11 +9,11 @@ import Input from '../components/Input'
 import {
   Container,
   LeftSide,
-  RightSide,
   Content,
   Form,
-  ButtonContainer,
-  Text
+  Text,
+  RightSide,
+  ButtonContainer
 } from '../styles/pages/Register'
 
 const Login: React.FC = () => {

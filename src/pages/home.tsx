@@ -9,7 +9,7 @@ const Home: React.FC = () => {
     <>
       <Header />
       <Container>
-        <Search />
+        {/* <Search /> */}
         {/* <DisplayCard
           imageUrl="/img/iron-man.jpg"
           title="Iron Man"

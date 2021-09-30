@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+
 import ProfileIcon from '../../ProfileIcon'
 
 import { Container, Options } from './styles'
