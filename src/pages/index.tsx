@@ -28,7 +28,7 @@ const Login: React.FC = () => {
       try {
         await signIn(data)
        
-        router.push('app/characters')
+        router.push('/app/characters')
       } catch (error) {
        
       }

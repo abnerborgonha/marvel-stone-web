@@ -2,9 +2,15 @@ import { createContext, useCallback, useContext, useState } from 'react'
 import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import api from '../services/api'
 
+interface User {
+  id: string
+  name: string
+  email: string
+}
+
 interface AuthState {
   token: string
-  user: object
+  user: User
 }
 
 interface SignInCredentials {
@@ -13,7 +19,7 @@ interface SignInCredentials {
 }
 
 export interface IAuthContextData {
-  user: object
+  user: User
   signIn(credentials: SignInCredentials): Promise<void>
   signOut(): void
 }
@@ -46,7 +52,11 @@ const AuthProvider: React.FC = ({ children }) => {
     const { token, user } = response.data
 
     setCookie(undefined, '@marvelstone:token', token)
-    setCookie(undefined, '@marvelstone:user', JSON.stringify({ id: user.id }))
+    setCookie(
+      undefined,
+      '@marvelstone:user',
+      JSON.stringify({ id: user.id, name: user.name, email: user.email })
+    )
 
     api.defaults.headers.common.Authorization = `Bearer ${token}`
 
