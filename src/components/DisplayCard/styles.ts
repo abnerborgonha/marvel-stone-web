@@ -19,18 +19,18 @@ export const Container = styled.div<IDisplayCardProps>`
   height: 30rem;
   border-radius: 2.8rem;
 
-  filter: grayscale(0.7);
+  filter: grayscale(0.9);
   background: url(${({ imageUrl }) => imageUrl});
   background-repeat: no-repeat;
   background-size: cover;
 
-  transition: 0.3s;
+  transition: all 0.4s;
   cursor: pointer;
 
   :hover {
     width: 30.5rem;
     height: 30.5rem;
-    filter: grayscale(0);
+    filter: grayscale(0.4);
 
     box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
       rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,

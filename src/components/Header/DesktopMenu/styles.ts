@@ -33,6 +33,7 @@ export const Options = styled.div`
 
     :hover {
       font-weight: bold;
+      color: ${({ theme }) => theme.colors.primary};
     }
   }
 `

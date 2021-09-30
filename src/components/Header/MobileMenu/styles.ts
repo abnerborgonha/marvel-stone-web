@@ -47,7 +47,7 @@ export const MenuContent = styled.div<IMobileMenuProps>`
 
 export const Options = styled.div`
   width: 100%;
-
+  
   ul {
     display: flex;
     flex-direction: column;
@@ -66,6 +66,7 @@ export const Options = styled.div`
 
     :hover {
       font-weight: bold;
+      color: ${({ theme }) => theme.colors.primary};
     }
   }
 `

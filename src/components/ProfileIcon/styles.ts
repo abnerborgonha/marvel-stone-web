@@ -6,15 +6,12 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   padding: 0.5rem;
 
   cursor: pointer;
-
-  :hover {
-    border-bottom: 2px solid ${({theme}) => theme.colors.primary};
-  }
-`;
+  border-bottom: 2px solid transparent;
+`
 
 export const FakeAvatar = styled(Image)`
   width: 50px;
@@ -25,4 +22,8 @@ export const Name = styled.p`
   margin-left: 15px;
   font-size: 1.2rem;
   font-weight: bold;
-`;
+
+  :hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`

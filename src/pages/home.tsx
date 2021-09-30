@@ -14,9 +14,9 @@ const Home: React.FC = () => {
           subtitle="Tony Stark"
         />
         <DisplayCard
-          imageUrl="/img/spider-man-miles.jpg"
+          imageUrl="/img/spider-man.jpg"
           title="Spider Man"
-          subtitle="Miles Morales"
+          subtitle="Piter Parker"
         />
         <DisplayCard
           imageUrl="/img/hulk.jpg"
