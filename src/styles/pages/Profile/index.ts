@@ -18,11 +18,9 @@ export const Content = styled.div`
   align-items: center;
   flex-direction: column;
 
-  @media(max-width: 700px) {
+  @media (max-width: 700px) {
     margin-top: 20px;
-
   }
-
 `
 
 export const Title = styled.h1`

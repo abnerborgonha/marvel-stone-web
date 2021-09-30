@@ -2,13 +2,15 @@ import { InputHTMLAttributes } from 'react'
 
 import { Container } from './styles'
 
-const Search: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({...rest}) => {
+interface ISearchProps extends InputHTMLAttributes<HTMLInputElement> {
+  label: string
+}
+
+const Search: React.FC<ISearchProps> = ({ label, ...rest }) => {
   return (
     <Container>
-      <section>
-        <b>Search</b>
-      </section>
-      <input {...rest} placeholder="Search your favorite character or comic"/>
+      <h2>{label}</h2>
+      <input {...rest} />
     </Container>
   )
 }

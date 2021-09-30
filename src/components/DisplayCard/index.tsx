@@ -3,7 +3,7 @@ import { Container, Title, Subtitle, Footer, Explore } from './styles'
 
 interface IDisplayCardProps {
   title: string
-  subtitle: string
+  subtitle?: string
   imageUrl: string
 }
 

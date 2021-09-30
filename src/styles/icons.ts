@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-import { FiMenu, FiHeart } from 'react-icons/fi'
+import { FiMenu, FiHeart, FiSearch } from 'react-icons/fi'
 import { GrClose } from 'react-icons/gr'
 
 const defaultIconStyle = css`
@@ -19,6 +19,11 @@ export const Close = styled(GrClose)`
 `
 
 export const Heart = styled(FiHeart)`
+  ${defaultIconStyle};
+  cursor: pointer;
+`
+
+export const Search = styled(FiSearch)`
   ${defaultIconStyle};
   cursor: pointer;
 `
