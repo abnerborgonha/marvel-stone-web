@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { ValidationError } from 'yup'
 import { useRouter } from 'next/router'
 import { useCallback, useRef } from 'react'
 import { FormHandles } from '@unform/core'
@@ -7,6 +8,9 @@ import useAuth from '../hooks/useAuth'
 
 import Button from '../components/Button'
 import Input from '../components/Input'
+
+import SignInValidation from '../validations/SignInValidation'
+import getYupValidationErrors from '../utils/getYupValidationsErros'
 
 import {
   Text,
@@ -26,11 +30,19 @@ const Login: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: { email: string; password: string }) => {
       try {
+        await SignInValidation.validate(data, {
+          abortEarly: false
+        })
+
         await signIn(data)
-       
+
         router.push('/app/characters')
       } catch (error) {
-       
+        if (error instanceof ValidationError) {
+          const errors = getYupValidationErrors(error)
+
+          return formRef.current?.setErrors(errors)
+        }
       }
     },
     [signIn]
@@ -47,7 +59,6 @@ const Login: React.FC = () => {
             <Input
               name="email"
               label="Email address"
-              type="email"
               placeholder="Enter your email"
             />
             <Input

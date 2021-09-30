@@ -1,8 +1,8 @@
 import Image from 'next/image'
+import { ValidationError } from 'yup'
 import { useRouter } from 'next/router'
 import { FormHandles } from '@unform/core'
 import { useCallback, useEffect, useRef } from 'react'
-
 import {
   Container,
   Content,
@@ -19,7 +19,6 @@ import Button from '../components/Button'
 
 import api from '../services/api'
 import ChangeProfileValidation from '../validations/ChangeProfileValidation'
-import { ValidationError } from 'yup'
 import getYupValidationErrors from '../utils/getYupValidationsErros'
 
 const Profile: React.FC = () => {
@@ -33,8 +32,6 @@ const Profile: React.FC = () => {
     formRef.current?.setFieldValue('name', name)
     formRef.current?.setFieldValue('email', email)
   }, [])
-
-  const handleSubmit = useCallback(() => {}, [])
 
   const handleUpdateUser = useCallback(async () => {
     try {
@@ -77,7 +74,7 @@ const Profile: React.FC = () => {
 
         <Title>My Account</Title>
 
-        <Form ref={formRef} onSubmit={handleSubmit}>
+        <Form ref={formRef} onSubmit={handleUpdateUser}>
           <Input name="name" label="Name" placeholder="Enter your name" />
 
           <Input
@@ -101,7 +98,7 @@ const Profile: React.FC = () => {
             placeholder="Enter your new password"
           />
           <ButtonContainer>
-            <Button label="Update" onClick={handleUpdateUser} />
+            <Button label="Update" type="submit" />
 
             <Text>Or</Text>
 

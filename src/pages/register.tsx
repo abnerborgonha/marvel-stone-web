@@ -6,6 +6,10 @@ import { FormHandles } from '@unform/core'
 import Button from '../components/Button'
 import Input from '../components/Input'
 
+import useAuth from '../hooks/useAuth'
+
+import SignUpValidation from '../validations/SignUpValidation'
+
 import {
   Container,
   LeftSide,
@@ -15,12 +19,34 @@ import {
   RightSide,
   ButtonContainer
 } from '../styles/pages/Register'
+import { ValidationError } from 'yup'
+import getYupValidationErrors from '../utils/getYupValidationsErros'
 
 const Login: React.FC = () => {
+  const { signUp } = useAuth()
   const router = useRouter()
   const formRef = useRef<FormHandles>(null)
 
-  const handleSubmit = useCallback(() => {}, [])
+  const handleSubmit = useCallback(
+    async (data: { name: string; email: string; password: string }) => {
+      try {
+        await SignUpValidation.validate(data, {
+          abortEarly: false
+        })
+
+        await signUp(data)
+
+        router.push('/')
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          const errors = getYupValidationErrors(error)
+
+          return formRef.current?.setErrors(errors)
+        }
+      }
+    },
+    [signUp]
+  )
 
   return (
     <Container>
@@ -40,10 +66,11 @@ const Login: React.FC = () => {
             <Input
               name="password"
               label="Set Password"
+              type="password"
               placeholder="Enter password"
             />
             <ButtonContainer>
-              <Button label="Sign Up" />
+              <Button label="Sign Up" type="submit" />
 
               <Text>or</Text>
 

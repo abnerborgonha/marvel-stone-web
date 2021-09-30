@@ -18,9 +18,16 @@ interface SignInCredentials {
   password: string
 }
 
+interface SignUpData {
+  name: string
+  email: string
+  password: string
+}
+
 export interface IAuthContextData {
   user: User
   signIn(credentials: SignInCredentials): Promise<void>
+  signUp(data: SignUpData): Promise<void>
   signOut(): void
 }
 
@@ -63,6 +70,14 @@ const AuthProvider: React.FC = ({ children }) => {
     setData({ token, user })
   }, [])
 
+  const signUp = useCallback(async ({ name, email, password }) => {
+    await api.post('users', {
+      name,
+      email,
+      password
+    })
+  }, [])
+
   const signOut = useCallback(async () => {
     destroyCookie(undefined, '@marvelstone:token')
     destroyCookie(undefined, '@marvelstone:user')
@@ -71,7 +86,7 @@ const AuthProvider: React.FC = ({ children }) => {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user: data.user, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
   )
