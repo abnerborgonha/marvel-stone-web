@@ -41,8 +41,9 @@ export const MenuContent = styled.div<IMobileMenuProps>`
   background: ${({ theme }) => theme.colors.background};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 
-  transition: transform 0.3s ease-in-out;
-  transform: ${({ open }) => (open ? 'translateY(0)' : 'translateY(-150%)')};
+  transition: transform  0.3s ease-in-out;
+
+  display: ${({ open }) => (!open && 'none')};
 `
 
 export const Options = styled.div`

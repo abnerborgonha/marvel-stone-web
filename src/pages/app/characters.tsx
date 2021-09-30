@@ -48,7 +48,6 @@ const Characters: React.FC = () => {
             value={search}
             onChange={handleSearch}
           />
-
           <Grid>
             {characters.map(character => (
               <DisplayCard
