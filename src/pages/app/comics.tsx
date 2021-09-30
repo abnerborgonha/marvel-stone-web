@@ -1,16 +1,21 @@
+import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 
-import { marvel } from '../../service/marvel'
+import { marvel } from '../../services/marvel'
 
 import Header from '../../components/Header'
 import Search from '../../components/Search'
 import DisplayCard from '../../components/DisplayCard'
+
+import useAuth from '../../hooks/useAuth'
 
 import IComicDTO from '../../dtos/IComicDTO'
 
 import { Container, Content, Grid } from '../../styles/pages/Charactes'
 
 const Comics: React.FC = () => {
+  const { user } = useAuth()
+  const router = useRouter()
   const [search, setSearch] = useState<string | undefined>()
   const [comics, setComics] = useState<IComicDTO[]>([])
 
@@ -37,6 +42,12 @@ const Comics: React.FC = () => {
   useEffect(() => {
     handleGetAllComics(search)
   }, [search, setSearch])
+
+  useEffect(() => {
+    if (!user) {
+      router.replace('/')
+    }
+  }, [router, user])
 
   return (
     <>

@@ -12,14 +12,22 @@ import {
   ButtonContainer
 } from '../styles/pages/Profile'
 
+import useAuth from '../hooks/useAuth'
 import Input from '../components/Input'
 import Button from '../components/Button'
 
 const Profile: React.FC = () => {
   const router = useRouter()
+  const { signOut } = useAuth()
   const formRef = useRef<FormHandles>(null)
 
   const handleSubmit = useCallback(() => {}, [])
+
+  const handleSignOut = useCallback(() => {
+    signOut()
+
+    router.push('/')
+  }, [])
 
   return (
     <Container>
@@ -55,7 +63,7 @@ const Profile: React.FC = () => {
             <Text>Or</Text>
 
             <Button label="Come to back" secondary onClick={() => router.back()}/>
-            <Button label="Logout" />
+            <Button label="SignOut" onClick={handleSignOut} />
           </ButtonContainer>
         </Form>
       </Content>

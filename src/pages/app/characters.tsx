@@ -1,6 +1,9 @@
+import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 
-import { marvel } from '../../service/marvel'
+import { marvel } from '../../services/marvel'
+
+import useAuth from '../../hooks/useAuth'
 
 import Header from '../../components/Header'
 import Search from '../../components/Search'
@@ -11,6 +14,8 @@ import ICharacterDTO from '../../dtos/ICharacterDTO'
 import { Container, Content, Grid } from '../../styles/pages/Charactes'
 
 const Characters: React.FC = () => {
+  const { user } = useAuth()
+  const router = useRouter()
   const [search, setSearch] = useState<string | undefined>()
   const [characters, setCharacters] = useState<ICharacterDTO[]>([])
 
@@ -33,6 +38,12 @@ const Characters: React.FC = () => {
     },
     []
   )
+  
+  useEffect(() => {
+    if (!user) {
+      router.replace('/')
+    }
+  }, [router, user])
 
   useEffect(() => {
     handleGetAllCharacters(search)

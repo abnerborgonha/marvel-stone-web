@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import { useCallback, useRef } from 'react'
 import { FormHandles } from '@unform/core'
 
+import useAuth from '../hooks/useAuth'
+
 import Button from '../components/Button'
 import Input from '../components/Input'
 
@@ -13,14 +15,26 @@ import {
   LeftSide,
   Container,
   RightSide,
-  ButtonContainer,
+  ButtonContainer
 } from '../styles/pages/Login'
 
 const Login: React.FC = () => {
+  const { signIn } = useAuth()
   const router = useRouter()
   const formRef = useRef<FormHandles>(null)
 
-  const handleSubmit = useCallback(() => {}, [])
+  const handleSubmit = useCallback(
+    async (data: { email: string; password: string }) => {
+      try {
+        await signIn(data)
+       
+        router.push('app/characters')
+      } catch (error) {
+       
+      }
+    },
+    [signIn]
+  )
 
   return (
     <Container>
@@ -33,15 +47,21 @@ const Login: React.FC = () => {
             <Input
               name="email"
               label="Email address"
+              type="email"
               placeholder="Enter your email"
             />
             <Input
               name="password"
               label="Set Password"
+              type="password"
               placeholder="Enter password"
             />
             <ButtonContainer>
-              <Button label="Sign In" onClick={() => router.push('/app/characters')} />
+              <Button
+                label="Sign In"
+                type="submit"
+                onClick={() => formRef.current?.submitForm()}
+              />
 
               <Text>or</Text>
 
