@@ -48,6 +48,8 @@ const Profile: React.FC = () => {
 
       await api.patch(`users/${user.id}`, fields)
       
+      router.back()
+
     } catch (error) {
       if (error instanceof ValidationError) {
         const errors = getYupValidationErrors(error)
