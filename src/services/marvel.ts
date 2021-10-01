@@ -1,12 +1,13 @@
 import axios from 'axios'
+import 'dotenv/config'
 
 export const marvel = axios.create({
-  baseURL: 'https://gateway.marvel.com/v1/public'
+  baseURL: process.env.API_HOST_MARVEL
 })
 
 marvel.defaults.params = {
   ts: 'thesoer',
-  apikey: '001ac6c73378bbfff488a36141458af2',
-  hash: '72e5ed53d1398abb831c3ceec263f18b',
+  apikey: process.env.API_KEY_MARVEL,
+  hash: process.env.API_HASH_MARVEL,
   limit: 100,
 }

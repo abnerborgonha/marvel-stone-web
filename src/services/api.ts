@@ -1,7 +1,8 @@
 import axios from 'axios'
+import 'dotenv/config'
+
 const api = axios.create({
-  // baseURL: 'http://marvel.api.abnerborgonha.com/v1'
-  baseURL: 'http://localhost:3333/v1'
+  baseURL: `${process.env.API_HOST}/v1`
 })
 
 
