@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { marvel } from '../../services/marvel'
 
 import useAuth from '../../hooks/useAuth'
+import useDebounce from '../../hooks/useDebounce'
 
 import Header from '../../components/Header'
 import Search from '../../components/Search'
@@ -18,18 +19,19 @@ const Characters: React.FC = () => {
   const { user } = useAuth()
   const router = useRouter()
   const [search, setSearch] = useState<string | undefined>()
+  const debouncedSearch = useDebounce<string | undefined>(search, 500)
   const [characters, setCharacters] = useState<ICharacterDTO[]>([])
   const [favoriteCharacters, setFavoriteCharacters] = useState<
     { marvel_character_id: string }[]
   >([])
-
+  
   const handleSearch = useCallback(
     (event: React.FormEvent<HTMLInputElement>) => {
       const characterName = event.currentTarget.value || undefined
 
       setSearch(characterName)
     },
-    []
+    [debouncedSearch]
   )
 
   const handleGetAllCharacters = useCallback(
@@ -40,7 +42,7 @@ const Characters: React.FC = () => {
 
       setCharacters(data.data.results)
     },
-    []
+    [search]
   )
 
   const handleGetAllFavoriteCharacters = useCallback(async () => {
@@ -57,7 +59,7 @@ const Characters: React.FC = () => {
 
   useEffect(() => {
     handleGetAllCharacters(search)
-  }, [search, setSearch])
+  }, [debouncedSearch])
 
   useEffect(() => {
     handleGetAllFavoriteCharacters()

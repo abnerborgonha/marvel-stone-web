@@ -8,6 +8,7 @@ import Search from '../../components/Search'
 import DisplayCard from '../../components/DisplayCard'
 
 import useAuth from '../../hooks/useAuth'
+import useDebounce from '../../hooks/useDebounce'
 
 import IComicDTO from '../../dtos/IComicDTO'
 
@@ -18,6 +19,7 @@ const Comics: React.FC = () => {
   const { user } = useAuth()
   const router = useRouter()
   const [search, setSearch] = useState<string | undefined>()
+  const debouncedSearch = useDebounce<string | undefined>(search, 500)
   const [comics, setComics] = useState<IComicDTO[]>([])
   const [favoriteComics, setFavoriteComics] = useState<
     { marvel_comic_id: string }[]
@@ -29,7 +31,7 @@ const Comics: React.FC = () => {
 
       setSearch(comicsName)
     },
-    []
+    [debouncedSearch]
   )
 
   const handleGetAllComics = useCallback(async (value?: string | undefined) => {
@@ -38,7 +40,7 @@ const Comics: React.FC = () => {
     })
 
     setComics(data.data.results)
-  }, [])
+  }, [search])
 
   const handleGetAllFavoriteComics = useCallback(async () => {
     const { data } = await api.get('favorite-comics')
@@ -48,7 +50,7 @@ const Comics: React.FC = () => {
 
   useEffect(() => {
     handleGetAllComics(search)
-  }, [search, setSearch])
+  }, [debouncedSearch])
 
   useEffect(() => {
     handleGetAllFavoriteComics()

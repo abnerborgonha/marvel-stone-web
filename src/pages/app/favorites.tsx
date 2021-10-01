@@ -98,13 +98,6 @@ const Favorites: React.FC = () => {
       <Header />
       <Container>
         <Content>
-          <Search
-            label={`Search your favorite ${
-              selectedOptionFavorite === 'character' ? 'characters' : 'comics'
-            }:`}
-            value={search}
-            onChange={handleSearch}
-          />
           <FavoriteOptions>
             <Button
               label="Characters"
