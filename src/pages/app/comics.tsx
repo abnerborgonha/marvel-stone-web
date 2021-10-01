@@ -19,7 +19,9 @@ const Comics: React.FC = () => {
   const router = useRouter()
   const [search, setSearch] = useState<string | undefined>()
   const [comics, setComics] = useState<IComicDTO[]>([])
-  const [favoriteComics, setFavoriteComics] = useState<{marvel_comic_id: string}[]>([])
+  const [favoriteComics, setFavoriteComics] = useState<
+    { marvel_comic_id: string }[]
+  >([])
 
   const handleSearch = useCallback(
     (event: React.FormEvent<HTMLInputElement>) => {
@@ -50,7 +52,7 @@ const Comics: React.FC = () => {
 
   useEffect(() => {
     handleGetAllFavoriteComics()
-  },[])
+  }, [])
 
   useEffect(() => {
     if (!user) {
@@ -69,16 +71,22 @@ const Comics: React.FC = () => {
             onChange={handleSearch}
           />
 
-          <Grid>
-            {comics.map(comic => (
-              <DisplayCard
-                imageUrl={`${comic.thumbnail.path}/portrait_uncanny.${comic.thumbnail.extension}`}
-                type="comic"
-                data={comic}
-                isFavorite={favoriteComics.some(favoriteComic => favoriteComic.marvel_comic_id === String(comic.id))}
-              />
-            ))}
-          </Grid>
+          {!!comics.length && (
+            <Grid>
+              {comics.map(comic => (
+                <DisplayCard
+                  key={comic.id}
+                  imageUrl={`${comic.thumbnail.path}/portrait_uncanny.${comic.thumbnail.extension}`}
+                  type="comic"
+                  data={comic}
+                  isFavorite={favoriteComics.some(
+                    favoriteComic =>
+                      favoriteComic.marvel_comic_id === String(comic.id)
+                  )}
+                />
+              ))}
+            </Grid>
+          )}
         </Content>
       </Container>
     </>

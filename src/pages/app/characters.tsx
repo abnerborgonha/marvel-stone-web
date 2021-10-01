@@ -73,20 +73,22 @@ const Characters: React.FC = () => {
             value={search}
             onChange={handleSearch}
           />
-          <Grid>
-            {characters.map(character => (
-              <DisplayCard
-                imageUrl={`${character.thumbnail.path}/portrait_uncanny.${character.thumbnail.extension}`}
-                type="character"
-                data={character}
-                isFavorite={favoriteCharacters.some(
-                  favoriteCharacter =>
-                    favoriteCharacter.marvel_character_id ===
-                    String(character.id)
-                )}
-              />
-            ))}
-          </Grid>
+          {!!characters.length && (
+            <Grid>
+              {characters.map(character => (
+                <DisplayCard
+                  imageUrl={`${character.thumbnail.path}/portrait_uncanny.${character.thumbnail.extension}`}
+                  type="character"
+                  data={character}
+                  isFavorite={favoriteCharacters.some(
+                    favoriteCharacter =>
+                      favoriteCharacter.marvel_character_id ===
+                      String(character.id)
+                  )}
+                />
+              ))}
+            </Grid>
+          )}
         </Content>
       </Container>
     </>

@@ -19,6 +19,8 @@ import {
   FavoriteOptions
 } from '../../styles/pages/App'
 import Button from '../../components/Button'
+import api from '../../services/api'
+import axios from 'axios'
 
 type SelectedOptionFavorite = 'character' | 'comic'
 
@@ -33,10 +35,42 @@ const Favorites: React.FC = () => {
 
   const [favorites, setFavorites] = useState<IComicDTO[] | ICharacterDTO[]>([])
 
+  const handleGetAllFavorites = useCallback(async () => {
+    if (selectedOptionFavorite === 'character') {
+      const { data: favoriteCharacters } = await api.get<{marvel_character_id: string}[]>('favorite-characters')
 
-  const handleSelectedOptionFavorite = useCallback((type: SelectedOptionFavorite) => {
-    setSelectedOptionFavorite(type)
-  }, [])
+      const responses = await axios.all(
+        favoriteCharacters.map(favoriteCharacter =>
+          marvel.get(`characters/${favoriteCharacter.marvel_character_id}`)
+        )
+      )
+
+      
+      
+      const characters = responses.map(response => response.data.data.results[0]) 
+      setFavorites(characters)
+    } else {
+      const { data: favoriteComics } = await api.get<{marvel_comic_id: string}[]>('favorite-comics')
+
+      const responses = await axios.all(
+        favoriteComics.map(favoriteComic =>
+          marvel.get(`comics/${favoriteComic.marvel_comic_id}`)
+        )
+      )
+
+      
+      
+      const comics = responses.map(response => response.data.data.results[0]) 
+      setFavorites(comics)
+    }
+  }, [selectedOptionFavorite])
+
+  const handleSelectedOptionFavorite = useCallback(
+    (type: SelectedOptionFavorite) => {
+      setSelectedOptionFavorite(type)
+    },
+    []
+  )
 
   const handleSearch = useCallback(
     (event: React.FormEvent<HTMLInputElement>) => {
@@ -46,6 +80,10 @@ const Favorites: React.FC = () => {
     },
     []
   )
+  
+  useEffect(() => {
+    handleGetAllFavorites()
+  }, [selectedOptionFavorite])
 
   useEffect(() => {
     if (!user) {
@@ -78,16 +116,17 @@ const Favorites: React.FC = () => {
             />
           </FavoriteOptions>
 
-          <Grid>
-            {/* {comics.map(comics => (
+         {!!favorites.length && <Grid>
+            {favorites.map(favorite => (
               <DisplayCard
-                imageUrl={`${comics.thumbnail.path}/portrait_uncanny.${comics.thumbnail.extension}`}
-                type="comic"
-                data={comics}
+              key={favorite.id}
+                imageUrl={`${favorite.thumbnail.path}/portrait_uncanny.${favorite.thumbnail.extension}`}
+                type={selectedOptionFavorite}
+                data={favorite}
                 isFavorite
               />
-            ))} */}
-          </Grid>
+            ))}
+          </Grid>}
         </Content>
       </Container>
     </>

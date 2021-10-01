@@ -49,10 +49,14 @@ export const FavoriteOptions = styled.div`
   display: flex;
 
   width: 100%;
-  margin: 1rem 0;
+  margin-top: 20px;
 
   > Button {
-    margin: 0 1rem;
+    margin: 0;
+
+    & + button {
+      margin-left: 30px;
+    }
 
     height: 50px;
   }
@@ -61,7 +65,7 @@ export const FavoriteOptions = styled.div`
     flex-direction: column;
 
     > Button {
-      margin: 1rem 0;
+      margin-top: 30px;
     }
   }
 `
