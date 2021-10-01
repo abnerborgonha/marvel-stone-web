@@ -1,3 +1,4 @@
+import Link  from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -27,10 +28,18 @@ const MobileMenu: React.FC = () => {
         <MenuContent open={openMenu}>
           <Options>
             <ul>
-              <li>My Account</li>
-              <li>Characters</li>
-              <li>Comics</li>
-              <li>Favorites</li>
+              <Link href="/profile">
+                <li>My Account</li>
+              </Link>
+              <Link href="/app/characters">
+                <li>Characters</li>
+              </Link>
+              <Link href="/app/comics">
+                <li>Comics</li>
+              </Link>
+              <Link href="/app/favorites">
+                <li>Favorites</li>
+              </Link>
             </ul>
           </Options>
         </MenuContent>

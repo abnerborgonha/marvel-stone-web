@@ -1,5 +1,5 @@
-import { createContext, useCallback, useContext, useState } from 'react'
-import { setCookie, parseCookies, destroyCookie } from 'nookies'
+import { createContext, useCallback, useState } from 'react'
+import { setCookie, parseCookies, destroyCookie  } from 'nookies'
 import api from '../services/api'
 
 interface User {

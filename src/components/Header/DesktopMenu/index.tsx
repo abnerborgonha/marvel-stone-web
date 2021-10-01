@@ -21,10 +21,12 @@ const DesktopMenu: React.FC = () => {
           <Link href="/app/comics">
             <li>Comics</li>
           </Link>
-          <li>Favorites</li>
+          <Link href="/app/favorites">
+            <li>Favorites</li>
+          </Link>
         </ul>
       </Options>
-      <ProfileIcon name={reduceUserName(user.name)} />
+      {user?.name && <ProfileIcon name={reduceUserName(user.name)} />}
     </Container>
   )
 }

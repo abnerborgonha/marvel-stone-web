@@ -3,7 +3,7 @@ import ICharacterDTO from './ICharacterDTO'
 export default interface IComicDataDTO {
   id: number
   title: string
-  desciption?: string
+  description: string | null
   thumbnail: { path: string; extension: string }
   characters: { items: ICharacterDTO[] }
 }

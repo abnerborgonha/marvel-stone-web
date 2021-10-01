@@ -11,13 +11,15 @@ import useAuth from '../../hooks/useAuth'
 
 import IComicDTO from '../../dtos/IComicDTO'
 
-import { Container, Content, Grid } from '../../styles/pages/Charactes'
+import { Container, Content, Grid } from '../../styles/pages/App'
+import api from '../../services/api'
 
 const Comics: React.FC = () => {
   const { user } = useAuth()
   const router = useRouter()
   const [search, setSearch] = useState<string | undefined>()
   const [comics, setComics] = useState<IComicDTO[]>([])
+  const [favoriteComics, setFavoriteComics] = useState<{marvel_comic_id: string}[]>([])
 
   const handleSearch = useCallback(
     (event: React.FormEvent<HTMLInputElement>) => {
@@ -28,20 +30,27 @@ const Comics: React.FC = () => {
     []
   )
 
-  const handleGetAllComics = useCallback(
-    async (value?: string | undefined) => {
-      const { data } = await marvel.get('comics', {
-        params: value ? { titleStartsWith: value } : {}
-      })
+  const handleGetAllComics = useCallback(async (value?: string | undefined) => {
+    const { data } = await marvel.get('comics', {
+      params: value ? { titleStartsWith: value } : {}
+    })
 
-      setComics(data.data.results)
-    },
-    []
-  )
+    setComics(data.data.results)
+  }, [])
+
+  const handleGetAllFavoriteComics = useCallback(async () => {
+    const { data } = await api.get('favorite-comics')
+
+    setFavoriteComics(data)
+  }, [])
 
   useEffect(() => {
     handleGetAllComics(search)
   }, [search, setSearch])
+
+  useEffect(() => {
+    handleGetAllFavoriteComics()
+  },[])
 
   useEffect(() => {
     if (!user) {
@@ -61,10 +70,12 @@ const Comics: React.FC = () => {
           />
 
           <Grid>
-            {comics.map(comics => (
+            {comics.map(comic => (
               <DisplayCard
-                imageUrl={`${comics.thumbnail.path}/portrait_uncanny.${comics.thumbnail.extension}`}
-                title={comics.title}
+                imageUrl={`${comic.thumbnail.path}/portrait_uncanny.${comic.thumbnail.extension}`}
+                type="comic"
+                data={comic}
+                isFavorite={favoriteComics.some(favoriteComic => favoriteComic.marvel_comic_id === String(comic.id))}
               />
             ))}
           </Grid>

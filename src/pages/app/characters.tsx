@@ -11,13 +11,17 @@ import DisplayCard from '../../components/DisplayCard'
 
 import ICharacterDTO from '../../dtos/ICharacterDTO'
 
-import { Container, Content, Grid } from '../../styles/pages/Charactes'
+import { Container, Content, Grid } from '../../styles/pages/App'
+import api from '../../services/api'
 
 const Characters: React.FC = () => {
   const { user } = useAuth()
   const router = useRouter()
   const [search, setSearch] = useState<string | undefined>()
   const [characters, setCharacters] = useState<ICharacterDTO[]>([])
+  const [favoriteCharacters, setFavoriteCharacters] = useState<
+    { marvel_character_id: string }[]
+  >([])
 
   const handleSearch = useCallback(
     (event: React.FormEvent<HTMLInputElement>) => {
@@ -38,7 +42,13 @@ const Characters: React.FC = () => {
     },
     []
   )
-  
+
+  const handleGetAllFavoriteCharacters = useCallback(async () => {
+    const { data } = await api.get('favorite-characters')
+
+    setFavoriteCharacters(data)
+  }, [])
+
   useEffect(() => {
     if (!user) {
       router.replace('/')
@@ -48,6 +58,10 @@ const Characters: React.FC = () => {
   useEffect(() => {
     handleGetAllCharacters(search)
   }, [search, setSearch])
+
+  useEffect(() => {
+    handleGetAllFavoriteCharacters()
+  }, [])
 
   return (
     <>
@@ -63,7 +77,13 @@ const Characters: React.FC = () => {
             {characters.map(character => (
               <DisplayCard
                 imageUrl={`${character.thumbnail.path}/portrait_uncanny.${character.thumbnail.extension}`}
-                title={character.name}
+                type="character"
+                data={character}
+                isFavorite={favoriteCharacters.some(
+                  favoriteCharacter =>
+                    favoriteCharacter.marvel_character_id ===
+                    String(character.id)
+                )}
               />
             ))}
           </Grid>

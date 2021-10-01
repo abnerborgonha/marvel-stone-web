@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Button from '../../../components/Button'
 
 export const Container = styled.section`
   display: flex;
@@ -41,5 +42,26 @@ export const Grid = styled.div`
   @media (max-width: 400px) {
     justify-content: center;
     width: 100%;
+  }
+`
+
+export const FavoriteOptions = styled.div`
+  display: flex;
+
+  width: 100%;
+  margin: 1rem 0;
+
+  > Button {
+    margin: 0 1rem;
+
+    height: 50px;
+  }
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+
+    > Button {
+      margin: 1rem 0;
+    }
   }
 `

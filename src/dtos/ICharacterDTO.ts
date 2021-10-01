@@ -5,4 +5,5 @@ export default interface ICharacterDTO {
   thumbnail: { path: string; extension: string }
   comics: { items: IComicDTO[] }
   name: string
+  description: string
 }
