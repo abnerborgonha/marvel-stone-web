@@ -69,3 +69,13 @@ export const FavoriteOptions = styled.div`
     }
   }
 `
+
+export const FavoriteNotFound = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 50vh;
+`;

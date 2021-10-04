@@ -6,6 +6,7 @@ import { marvel } from '../../services/marvel'
 import Header from '../../components/Header'
 import Search from '../../components/Search'
 import DisplayCard from '../../components/DisplayCard'
+import Loader from '../../components/Loader'
 
 import useAuth from '../../hooks/useAuth'
 
@@ -16,7 +17,8 @@ import {
   Container,
   Content,
   Grid,
-  FavoriteOptions
+  FavoriteOptions,
+  FavoriteNotFound
 } from '../../styles/pages/App'
 import Button from '../../components/Button'
 import api from '../../services/api'
@@ -28,7 +30,7 @@ const Favorites: React.FC = () => {
   const { user } = useAuth()
   const router = useRouter()
 
-  const [search, setSearch] = useState<string | undefined>()
+  const [isLoading, setIsLoading] = useState(true)
 
   const [selectedOptionFavorite, setSelectedOptionFavorite] =
     useState<SelectedOptionFavorite>('character')
@@ -46,6 +48,8 @@ const Favorites: React.FC = () => {
           marvel.get(`characters/${favoriteCharacter.marvel_character_id}`)
         )
       )
+
+      setIsLoading(false)
 
       const characters = responses.map(
         response => response.data.data.results[0]
@@ -70,15 +74,6 @@ const Favorites: React.FC = () => {
   const handleSelectedOptionFavorite = useCallback(
     (type: SelectedOptionFavorite) => {
       setSelectedOptionFavorite(type)
-    },
-    []
-  )
-
-  const handleSearch = useCallback(
-    (event: React.FormEvent<HTMLInputElement>) => {
-      const comicsName = event.currentTarget.value || undefined
-
-      setSearch(comicsName)
     },
     []
   )
@@ -111,7 +106,7 @@ const Favorites: React.FC = () => {
             />
           </FavoriteOptions>
 
-          {!!favorites.length && (
+          {favorites.length ? (
             <Grid>
               {favorites.map(favorite => (
                 <DisplayCard
@@ -123,6 +118,12 @@ const Favorites: React.FC = () => {
                 />
               ))}
             </Grid>
+          ) : isLoading ? (
+            <Loader />
+          ) : (
+            <FavoriteNotFound>
+              <h1>You haven't favorited any character or comic yet. :(</h1>
+            </FavoriteNotFound>
           )}
         </Content>
       </Container>

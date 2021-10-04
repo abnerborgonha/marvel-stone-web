@@ -52,11 +52,15 @@ const Profile: React.FC = () => {
       await ChangeProfileValidation.validate(fields, {
         abortEarly: false
       })
-      
+
       setLoading(true)
       await api.patch(`users/${user.id}`, fields)
 
       setLoading(false)
+      showToastNotification({
+        message: 'User updated successfully!',
+        type: 'success'
+      })
       router.replace('/app/characters')
     } catch (err) {
       setLoading(false)
@@ -124,7 +128,11 @@ const Profile: React.FC = () => {
 
             <Text>Or</Text>
 
-            <Button label="Come back" secondary onClick={() => router.back()} />
+            <Button
+              label="Come back"
+              secondary
+              onClick={() => router.replace('/app/characters')}
+            />
             <Button label="SignOut" onClick={handleSignOut} />
           </ButtonContainer>
         </Form>
