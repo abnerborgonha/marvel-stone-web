@@ -33,7 +33,7 @@ const Characters: React.FC = () => {
 
       setSearch(characterName)
     },
-    [debouncedSearch]
+    [debouncedSearch, setSearch, search]
   )
 
   const handleGetAllCharacters = useCallback(
@@ -46,14 +46,14 @@ const Characters: React.FC = () => {
 
       setCharacters(data.data.results)
     },
-    [search]
+    [setCharacters, setIsLoading]
   )
 
   const handleGetAllFavoriteCharacters = useCallback(async () => {
     const { data } = await api.get('favorite-characters')
 
     setFavoriteCharacters(data)
-  }, [])
+  }, [setFavoriteCharacters])
 
   useEffect(() => {
     if (!user) {

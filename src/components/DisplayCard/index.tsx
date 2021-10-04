@@ -27,7 +27,7 @@ const DisplayCard: React.FC<IDisplayCardProps> = ({
       type,
       data
     })
-  }, [])
+  }, [data])
 
   const handleFavorite = async () => {
     const isCharacterType = type === 'character'
