@@ -1,10 +1,11 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { FormHandles } from '@unform/core'
 
-import Button from '../components/Button'
 import Input from '../components/Input'
+import Button from '../components/Button'
+import Loader from '../components/Loader'
 
 import useAuth from '../hooks/useAuth'
 
@@ -27,6 +28,7 @@ const Login: React.FC = () => {
   const { signUp } = useAuth()
   const router = useRouter()
   const formRef = useRef<FormHandles>(null)
+  const [isLoading, setLoading] = useState(false)
   const { showToastNotification } = useToastNotification()
 
   const handleSubmit = useCallback(
@@ -36,10 +38,18 @@ const Login: React.FC = () => {
           abortEarly: false
         })
 
+        setLoading(true)
         await signUp(data)
 
+        setLoading(false)
+        showToastNotification({
+          message: 'User created successfully!',
+          type: 'success'
+        })
         router.push('/')
       } catch (err) {
+        setLoading(false)
+
         const error: ValidationError | any = err
 
         if (error instanceof ValidationError) {
@@ -51,11 +61,11 @@ const Login: React.FC = () => {
         if (error.response) {
           showToastNotification({
             message: error.response.data.message,
-            type: error.response.data.status
+            type: 'error'
           })
 
           formRef.current?.clearField('email')
-          formRef.current?.clearField('password') 
+          formRef.current?.clearField('password')
         }
       }
     },
@@ -68,7 +78,7 @@ const Login: React.FC = () => {
       <RightSide>
         <Content>
           <Image src="/img/marvel-logo.png" width={200} height={100} />
-
+          {isLoading && <Loader />}
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input name="name" label="Name" placeholder="Enter your name" />
 

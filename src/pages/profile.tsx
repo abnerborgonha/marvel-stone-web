@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { ValidationError } from 'yup'
 import { useRouter } from 'next/router'
 import { FormHandles } from '@unform/core'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Container,
   Content,
@@ -16,6 +16,7 @@ import {
 import useAuth from '../hooks/useAuth'
 import Input from '../components/Input'
 import Button from '../components/Button'
+import Loader from '../components/Loader'
 
 import api from '../services/api'
 import ChangeProfileValidation from '../validations/ChangeProfileValidation'
@@ -27,6 +28,8 @@ const Profile: React.FC = () => {
   const { signOut, user } = useAuth()
   const formRef = useRef<FormHandles>(null)
   const { showToastNotification } = useToastNotification()
+
+  const [isLoading, setLoading] = useState(false)
 
   const handleSetUserData = useCallback(() => {
     const { name, email } = user
@@ -49,11 +52,14 @@ const Profile: React.FC = () => {
       await ChangeProfileValidation.validate(fields, {
         abortEarly: false
       })
-
+      
+      setLoading(true)
       await api.patch(`users/${user.id}`, fields)
 
+      setLoading(false)
       router.replace('/app/characters')
     } catch (err) {
+      setLoading(false)
       const error: ValidationError | any = err
 
       if (error instanceof ValidationError) {
@@ -87,6 +93,8 @@ const Profile: React.FC = () => {
         <Image src="/img/fake-profile.png" width={100} height={100} />
 
         <Title>My Account</Title>
+
+        {isLoading && <Loader />}
 
         <Form ref={formRef} onSubmit={handleUpdateUser}>
           <Input name="name" label="Name" placeholder="Enter your name" />

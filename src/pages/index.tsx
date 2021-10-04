@@ -1,15 +1,15 @@
 import Image from 'next/image'
-import { AxiosError, AxiosResponse } from 'axios'
 import { ValidationError } from 'yup'
 import { useRouter } from 'next/router'
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { FormHandles } from '@unform/core'
 
 import useAuth from '../hooks/useAuth'
 import useToastNotification from '../hooks/useToastNotification'
 
-import Button from '../components/Button'
 import Input from '../components/Input'
+import Button from '../components/Button'
+import Loader from '../components/Loader'
 
 import SignInValidation from '../validations/SignInValidation'
 import getYupValidationErrors from '../utils/getYupValidationsErros'
@@ -30,6 +30,8 @@ const Login: React.FC = () => {
   const formRef = useRef<FormHandles>(null)
   const { showToastNotification } = useToastNotification()
 
+  const [isLoading, setLoading] = useState(false)
+
   const handleSubmit = useCallback(
     async (data: { email: string; password: string }) => {
       event?.preventDefault()
@@ -39,10 +41,14 @@ const Login: React.FC = () => {
           abortEarly: false
         })
 
+        setLoading(true)
+
         await signIn(data)
 
+        setLoading(false)
         router.push('/app/characters')
       } catch (err) {
+        setLoading(false)
         const error: ValidationError | any = err
 
         if (error instanceof ValidationError) {
@@ -68,6 +74,8 @@ const Login: React.FC = () => {
       <RightSide>
         <Content>
           <Image src="/img/marvel-logo.png" width={200} height={100} />
+
+          {isLoading && <Loader />}
 
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input
