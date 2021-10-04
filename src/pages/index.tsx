@@ -1,10 +1,11 @@
 import Image from 'next/image'
 import { ValidationError } from 'yup'
 import { useRouter } from 'next/router'
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { FormHandles } from '@unform/core'
 
 import useAuth from '../hooks/useAuth'
+import useToastNotification from '../hooks/useToastNotification'
 
 import Button from '../components/Button'
 import Input from '../components/Input'
@@ -23,6 +24,7 @@ import {
 } from '../styles/pages/Login'
 
 const Login: React.FC = () => {
+  const { showToastNotification } = useToastNotification()
   const { signIn } = useAuth()
   const router = useRouter()
   const formRef = useRef<FormHandles>(null)
@@ -47,6 +49,10 @@ const Login: React.FC = () => {
     },
     [signIn]
   )
+
+  useEffect(() => {
+    showToastNotification({message: 'Olá', type: 'error'})
+  }, [])
 
   return (
     <Container>
