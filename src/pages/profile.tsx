@@ -25,7 +25,7 @@ import useToastNotification from '../hooks/useToastNotification'
 
 const Profile: React.FC = () => {
   const router = useRouter()
-  const { signOut, user } = useAuth()
+  const { signOut, user, refreshDataUser } = useAuth()
   const formRef = useRef<FormHandles>(null)
   const { showToastNotification } = useToastNotification()
 
@@ -54,7 +54,9 @@ const Profile: React.FC = () => {
       })
 
       setLoading(true)
-      await api.patch(`users/${user.id}`, fields)
+      const { data } = await api.patch(`users/${user.id}`, fields)
+
+      refreshDataUser(data)
 
       setLoading(false)
       showToastNotification({

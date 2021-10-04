@@ -1,5 +1,5 @@
 import { createContext, useCallback, useState } from 'react'
-import { setCookie, parseCookies, destroyCookie  } from 'nookies'
+import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import api from '../services/api'
 
 interface User {
@@ -29,6 +29,7 @@ export interface IAuthContextData {
   signIn(credentials: SignInCredentials): Promise<void>
   signUp(data: SignUpData): Promise<void>
   signOut(): void
+  refreshDataUser(user: User): void
 }
 
 export const AuthContext = createContext<IAuthContextData>(
@@ -55,7 +56,7 @@ const AuthProvider: React.FC = ({ children }) => {
       email,
       password
     })
-    
+
     const { token, user } = response.data
 
     setCookie(undefined, '@marvelstone:token', token)
@@ -85,8 +86,16 @@ const AuthProvider: React.FC = ({ children }) => {
     setData({} as AuthState)
   }, [])
 
+  const refreshDataUser = useCallback(async (user: User) => {
+    const { token } = data
+
+    setData({ token, user })
+  }, [])
+
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signUp, signOut }}>
+    <AuthContext.Provider
+      value={{ user: data.user, signIn, signUp, signOut, refreshDataUser }}
+    >
       {children}
     </AuthContext.Provider>
   )
