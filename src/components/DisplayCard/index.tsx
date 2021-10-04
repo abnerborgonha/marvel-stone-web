@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import useModal from '../../hooks/useModal'
+import useToastNotification from '../../hooks/useToastNotification'
 import api from '../../services/api'
 import FavoriteButton from '../FavoriteButton'
 
@@ -19,6 +20,7 @@ const DisplayCard: React.FC<IDisplayCardProps> = ({
   isFavorite
 }) => {
   const { showModal } = useModal()
+  const { showToastNotification } = useToastNotification()
 
   const handleShowCard = useCallback(() => {
     showModal({
@@ -35,9 +37,17 @@ const DisplayCard: React.FC<IDisplayCardProps> = ({
         await api.get(`favorite-characters/${data.id}`)
 
         await api.delete(`favorite-characters/${data.id}`)
+        showToastNotification({
+          message: `You removed ${data.name} to your favorites`,
+          type: 'warning'
+        })
       } catch (error) {
         await api.post(`favorite-characters`, {
           marvel_character_id: String(data.id)
+        })
+        showToastNotification({
+          message: `You added ${data.name} to your favorites`,
+          type: 'success'
         })
       }
     } else {
@@ -45,9 +55,18 @@ const DisplayCard: React.FC<IDisplayCardProps> = ({
         await api.get(`favorite-comics/${data.id}`)
 
         await api.delete(`favorite-comics/${data.id}`)
+        showToastNotification({
+          message: `You removed ${data.title} to your favorites`,
+          type: 'warning'
+        })
       } catch (error) {
         await api.post(`favorite-comics`, {
           marvel_comic_id: String(data.id)
+        })
+
+        showToastNotification({
+          message: `You added ${data.title} to your favorites`,
+          type: 'success'
         })
       }
     }
