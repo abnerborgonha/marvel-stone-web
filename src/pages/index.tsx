@@ -1,7 +1,8 @@
 import Image from 'next/image'
+import { AxiosError, AxiosResponse } from 'axios'
 import { ValidationError } from 'yup'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { FormHandles } from '@unform/core'
 
 import useAuth from '../hooks/useAuth'
@@ -24,13 +25,15 @@ import {
 } from '../styles/pages/Login'
 
 const Login: React.FC = () => {
-  const { showToastNotification } = useToastNotification()
   const { signIn } = useAuth()
   const router = useRouter()
   const formRef = useRef<FormHandles>(null)
+  const { showToastNotification } = useToastNotification()
 
   const handleSubmit = useCallback(
     async (data: { email: string; password: string }) => {
+      event?.preventDefault()
+
       try {
         await SignInValidation.validate(data, {
           abortEarly: false
@@ -39,20 +42,25 @@ const Login: React.FC = () => {
         await signIn(data)
 
         router.push('/app/characters')
-      } catch (error) {
+      } catch (err) {
+        const error: ValidationError | any = err
+
         if (error instanceof ValidationError) {
           const errors = getYupValidationErrors(error)
 
           return formRef.current?.setErrors(errors)
         }
+
+        if (error.response) {
+          showToastNotification({
+            message: error.response.data.message,
+            type: error.response.data.status
+          })
+        }
       }
     },
-    [signIn]
+    [signIn, formRef, showToastNotification]
   )
-
-  useEffect(() => {
-    showToastNotification({message: 'Olá', type: 'error'})
-  }, [])
 
   return (
     <Container>

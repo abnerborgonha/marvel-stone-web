@@ -21,11 +21,13 @@ import {
 } from '../styles/pages/Register'
 import { ValidationError } from 'yup'
 import getYupValidationErrors from '../utils/getYupValidationsErros'
+import useToastNotification from '../hooks/useToastNotification'
 
 const Login: React.FC = () => {
   const { signUp } = useAuth()
   const router = useRouter()
   const formRef = useRef<FormHandles>(null)
+  const { showToastNotification } = useToastNotification()
 
   const handleSubmit = useCallback(
     async (data: { name: string; email: string; password: string }) => {
@@ -37,11 +39,23 @@ const Login: React.FC = () => {
         await signUp(data)
 
         router.push('/')
-      } catch (error) {
+      } catch (err) {
+        const error: ValidationError | any = err
+
         if (error instanceof ValidationError) {
           const errors = getYupValidationErrors(error)
 
           return formRef.current?.setErrors(errors)
+        }
+
+        if (error.response) {
+          showToastNotification({
+            message: error.response.data.message,
+            type: error.response.data.status
+          })
+
+          formRef.current?.clearField('email')
+          formRef.current?.clearField('password') 
         }
       }
     },

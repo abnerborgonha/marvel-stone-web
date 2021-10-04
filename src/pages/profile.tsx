@@ -20,11 +20,13 @@ import Button from '../components/Button'
 import api from '../services/api'
 import ChangeProfileValidation from '../validations/ChangeProfileValidation'
 import getYupValidationErrors from '../utils/getYupValidationsErros'
+import useToastNotification from '../hooks/useToastNotification'
 
 const Profile: React.FC = () => {
   const router = useRouter()
   const { signOut, user } = useAuth()
   const formRef = useRef<FormHandles>(null)
+  const { showToastNotification } = useToastNotification()
 
   const handleSetUserData = useCallback(() => {
     const { name, email } = user
@@ -34,6 +36,8 @@ const Profile: React.FC = () => {
   }, [])
 
   const handleUpdateUser = useCallback(async () => {
+    event?.preventDefault()
+
     try {
       const fields = formRef.current?.getData()
 
@@ -47,17 +51,25 @@ const Profile: React.FC = () => {
       })
 
       await api.patch(`users/${user.id}`, fields)
-      
-      router.back()
 
-    } catch (error) {
+      router.replace('/app/characters')
+    } catch (err) {
+      const error: ValidationError | any = err
+
       if (error instanceof ValidationError) {
         const errors = getYupValidationErrors(error)
 
         return formRef.current?.setErrors(errors)
       }
+
+      if (error.response) {
+        showToastNotification({
+          message: error.response.data.message,
+          type: error.response.data.status
+        })
+      }
     }
-  }, [])
+  }, [formRef, showToastNotification])
 
   const handleSignOut = useCallback(() => {
     signOut()
