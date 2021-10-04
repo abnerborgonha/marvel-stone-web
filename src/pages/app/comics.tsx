@@ -13,7 +13,12 @@ import useDebounce from '../../hooks/useDebounce'
 
 import IComicDTO from '../../dtos/IComicDTO'
 
-import { Container, Content, Grid } from '../../styles/pages/App'
+import {
+  Container,
+  Content,
+  NotFound,
+  Grid
+} from '../../styles/pages/App'
 import api from '../../services/api'
 
 const Comics: React.FC = () => {
@@ -25,6 +30,7 @@ const Comics: React.FC = () => {
   const [favoriteComics, setFavoriteComics] = useState<
     { marvel_comic_id: string }[]
   >([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleSearch = useCallback(
     (event: React.FormEvent<HTMLInputElement>) => {
@@ -35,13 +41,17 @@ const Comics: React.FC = () => {
     [debouncedSearch]
   )
 
-  const handleGetAllComics = useCallback(async (value?: string | undefined) => {
-    const { data } = await marvel.get('comics', {
-      params: value ? { titleStartsWith: value } : {}
-    })
+  const handleGetAllComics = useCallback(
+    async (value?: string | undefined) => {
+      const { data } = await marvel.get('comics', {
+        params: value ? { titleStartsWith: value } : {}
+      })
+      setIsLoading(false)
 
-    setComics(data.data.results)
-  }, [search])
+      setComics(data.data.results)
+    },
+    [search, setIsLoading]
+  )
 
   const handleGetAllFavoriteComics = useCallback(async () => {
     const { data } = await api.get('favorite-comics')
@@ -51,7 +61,8 @@ const Comics: React.FC = () => {
 
   useEffect(() => {
     handleGetAllComics(search)
-  }, [debouncedSearch])
+    
+  }, [debouncedSearch, setIsLoading, isLoading])
 
   useEffect(() => {
     handleGetAllFavoriteComics()
@@ -89,7 +100,14 @@ const Comics: React.FC = () => {
                 />
               ))}
             </Grid>
-          ): (<Loader />)}
+          ) : isLoading ? (
+            <Loader />
+          ) : (
+            <NotFound>
+              {' '}
+              <h1>Unable to fetch comics based on your search. :(</h1>
+            </NotFound>
+          )}
         </Content>
       </Container>
     </>

@@ -70,7 +70,7 @@ export const FavoriteOptions = styled.div`
   }
 `
 
-export const FavoriteNotFound = styled.div`
+export const NotFound = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -18,7 +18,7 @@ import {
   Content,
   Grid,
   FavoriteOptions,
-  FavoriteNotFound
+  NotFound
 } from '../../styles/pages/App'
 import Button from '../../components/Button'
 import api from '../../services/api'
@@ -121,9 +121,9 @@ const Favorites: React.FC = () => {
           ) : isLoading ? (
             <Loader />
           ) : (
-            <FavoriteNotFound>
+            <NotFound>
               <h1>You haven't favorited any character or comic yet. :(</h1>
-            </FavoriteNotFound>
+            </NotFound>
           )}
         </Content>
       </Container>

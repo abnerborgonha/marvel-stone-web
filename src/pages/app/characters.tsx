@@ -13,7 +13,7 @@ import DisplayCard from '../../components/DisplayCard'
 
 import ICharacterDTO from '../../dtos/ICharacterDTO'
 
-import { Container, Content, Grid } from '../../styles/pages/App'
+import { Container, Content, Grid, NotFound } from '../../styles/pages/App'
 import api from '../../services/api'
 
 const Characters: React.FC = () => {
@@ -25,7 +25,8 @@ const Characters: React.FC = () => {
   const [favoriteCharacters, setFavoriteCharacters] = useState<
     { marvel_character_id: string }[]
   >([])
-  
+  const [isLoading, setIsLoading] = useState(true)
+
   const handleSearch = useCallback(
     (event: React.FormEvent<HTMLInputElement>) => {
       const characterName = event.currentTarget.value || undefined
@@ -37,9 +38,11 @@ const Characters: React.FC = () => {
 
   const handleGetAllCharacters = useCallback(
     async (value?: string | undefined) => {
+      
       const { data } = await marvel.get('characters', {
         params: value ? { nameStartsWith: value } : {}
       })
+      setIsLoading(false)
 
       setCharacters(data.data.results)
     },
@@ -76,7 +79,7 @@ const Characters: React.FC = () => {
             value={search}
             onChange={handleSearch}
           />
-          {!!characters.length?  (
+          {!!characters.length ? (
             <Grid>
               {characters.map(character => (
                 <DisplayCard
@@ -91,7 +94,14 @@ const Characters: React.FC = () => {
                 />
               ))}
             </Grid>
-          ): (<Loader />)}
+          ) : isLoading ? (
+            <Loader />
+          ) : (
+            <NotFound>
+              {' '}
+              <h1>Unable to fetch characters based on your search. :(</h1>
+            </NotFound>
+          )}
         </Content>
       </Container>
     </>
