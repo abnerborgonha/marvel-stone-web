@@ -8,6 +8,7 @@ import useDebounce from '../../hooks/useDebounce'
 
 import Header from '../../components/Header'
 import Search from '../../components/Search'
+import Loader from '../../components/Loader'
 import DisplayCard from '../../components/DisplayCard'
 
 import ICharacterDTO from '../../dtos/ICharacterDTO'
@@ -75,7 +76,7 @@ const Characters: React.FC = () => {
             value={search}
             onChange={handleSearch}
           />
-          {!!characters.length && (
+          {!!characters.length?  (
             <Grid>
               {characters.map(character => (
                 <DisplayCard
@@ -90,7 +91,7 @@ const Characters: React.FC = () => {
                 />
               ))}
             </Grid>
-          )}
+          ): (<Loader />)}
         </Content>
       </Container>
     </>

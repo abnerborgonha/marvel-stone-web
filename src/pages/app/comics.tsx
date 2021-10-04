@@ -5,6 +5,7 @@ import { marvel } from '../../services/marvel'
 
 import Header from '../../components/Header'
 import Search from '../../components/Search'
+import Loader from '../../components/Loader'
 import DisplayCard from '../../components/DisplayCard'
 
 import useAuth from '../../hooks/useAuth'
@@ -73,7 +74,7 @@ const Comics: React.FC = () => {
             onChange={handleSearch}
           />
 
-          {!!comics.length && (
+          {!!comics.length ? (
             <Grid>
               {comics.map(comic => (
                 <DisplayCard
@@ -88,7 +89,7 @@ const Comics: React.FC = () => {
                 />
               ))}
             </Grid>
-          )}
+          ): (<Loader />)}
         </Content>
       </Container>
     </>

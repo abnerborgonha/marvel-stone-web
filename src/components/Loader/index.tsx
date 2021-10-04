@@ -1,11 +1,11 @@
-import RingLoader from 'react-spinners/RingLoader'
+import BounceLoader from 'react-spinners/BounceLoader'
 import theme from '../../styles/theme'
 import { Container } from './styles'
 
 const Loader: React.FC = () => {
   return (
     <Container>
-      <RingLoader color={theme.colors.primary} size={160} />
+      <BounceLoader color={theme.colors.primary} size={100} />
     </Container>
   )
 }
